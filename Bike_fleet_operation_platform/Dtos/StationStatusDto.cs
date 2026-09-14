@@ -8,7 +8,7 @@ namespace Bike_fleet_operation_platform.Dtos;
 
 public class StationStatusDto
 {
-    public long station_id { get; set; }
+    public string station_id { get; set; } = string.Empty;
     public int nun_vehicles_available { get; set; }
     public int num_docs_available { get; set; }
     public bool is_renting { get; set; }

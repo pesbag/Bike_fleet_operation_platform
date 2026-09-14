@@ -8,7 +8,7 @@ namespace Bike_fleet_operation_platform.Dtos;
 
 public class StationInformationDto
 {
-    public long station_id { get; set; }
+    public string station_id { get; set; } = string.Empty;
     public string name { get; set; } = string.Empty;
     public double lat { get; set; }
     public double lon { get; set; }
