@@ -16,9 +16,13 @@ builder.Services.AddHttpClient(
     });
 
 builder.Services.AddTransient<StationInformationService>();
+builder.Services.AddTransient<StationStatusService>();
 
 using IHost host = builder.Build();
 
 
-var service = host.Services.GetRequiredService<StationInformationService>();
-await service.GetStationsInformationAsync(1);
+var statusService = host.Services.GetRequiredService<StationStatusService>();
+var stationsStatus = await statusService.GetStationsStatusAsync();
+
+var informationService = host.Services.GetRequiredService<StationInformationService>();
+var stationsInformation=await informationService.GetStationsInformationAsync();

@@ -26,7 +26,7 @@ public class StationInformationService
         (_httpClientFactory, _configuration, _logger) =
             (httpClientFactory, configuration, logger);
 
-    public async Task<StationInformationDto[]> GetStationsInformationAsync(int userId)
+    public async Task<StationInformationDto[]> GetStationsInformationAsync()
     {
         // Create the client
         string? httpClientName = _configuration["StationInformation"];
