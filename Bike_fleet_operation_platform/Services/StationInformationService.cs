@@ -1,20 +1,21 @@
 ﻿using Bike_fleet_operation_platform.Dtos;
+using Confluent.Kafka;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Configuration;
 using System.Linq;
 using System.Net.Http.Json;
-using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using static Confluent.Kafka.ConfigPropertyNames;
 
 namespace Bike_fleet_operation_platform.Services;
 
 public class StationInformationService
 {
+    private readonly KafkaProducerServices _kafkaProducer;
     private readonly IHttpClientFactory _httpClientFactory = null!;
     private readonly IConfiguration _configuration = null!;
     private readonly ILogger<StationInformationService> _logger = null!;
@@ -22,15 +23,16 @@ public class StationInformationService
     public StationInformationService(
         IHttpClientFactory httpClientFactory,
         IConfiguration configuration,
-        ILogger<StationInformationService> logger) =>
-        (_httpClientFactory, _configuration, _logger) =
-            (httpClientFactory, configuration, logger);
+        ILogger<StationInformationService> logger,
+        KafkaProducerServices kafkaProducer) =>
+        (_httpClientFactory, _configuration, _logger, _kafkaProducer) =
+            (httpClientFactory, configuration, logger, kafkaProducer);
 
-    public async Task<StationInformationDto[]> GetStationsInformationAsync()
+    public async Task<StationInformationDto[]> GetStationsInformationAsync(string topic)
     {
         // Create the client
-        string? httpClientName = _configuration["StationInformation"];
-        HttpClient client = _httpClientFactory.CreateClient(httpClientName ?? "");
+        string? httpClientName = _configuration["StationInformation"] ?? "LyftStationClient";
+        HttpClient client = _httpClientFactory.CreateClient(httpClientName);
 
         try
         {
@@ -42,8 +44,47 @@ public class StationInformationService
             .GetProperty("data")
             .GetProperty("stations");
 
-            StationInformationDto[]? stationsInformation = stationsElement.Deserialize<StationInformationDto[]>(options) ?? [];
+            StationInformationDto[]? stationsInformation = stationsElement.Deserialize<StationInformationDto[]>(options);
+            if (stationsInformation is null)
+            {
+                _logger.LogError("\"error in deserialize stations information\"");
+                Console.WriteLine("\"error in deserialize stations information\"");
+            }
             Console.WriteLine($"succesfully recived {stationsInformation.Length} stations information");
+
+            var validStations = new List<StationInformationDto>();
+
+            foreach (var station in stationsInformation)
+            {
+                var validationContext = new ValidationContext(station);
+                var validationResults = new List<ValidationResult>();
+
+                bool isValid = Validator.TryValidateObject(station, validationContext, validationResults, validateAllProperties: true);
+
+                if (isValid)
+                {
+                    validStations.Add(station);
+                }
+                else
+                {
+                    var errors = string.Join(", ", validationResults.Select(r => r.ErrorMessage));
+                    _logger.LogWarning("station {Id} failed validation: {errors}", station.Station_id, errors);
+                }
+            }
+            var sendTasks = validStations.Select(content =>
+            {
+                var message = new Message<string, string>
+                {
+                    Key = content.Station_id,
+                    Value = JsonSerializer.Serialize(content)
+                };
+
+                return _kafkaProducer.SendToKafkaAsync(topic, message);
+            });
+
+            await Task.WhenAll(sendTasks);
+            _kafkaProducer.Flush(TimeSpan.FromSeconds(10));
+            return stationsInformation;
         }
         catch (Exception ex)
         {
