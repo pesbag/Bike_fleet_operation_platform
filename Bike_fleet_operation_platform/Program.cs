@@ -2,6 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
+using Bike_fleet_operation_platform.DataDbContext;
+using Microsoft.EntityFrameworkCore;
 
 HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 
@@ -10,6 +12,7 @@ var config = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", optional: true)
     .Build();
 
+string connectionString = config["ConnectionStrings:DefaultConnection"]!;
 string bootstrapServices = config["Kafka:BootstrapServices"]!;
 string stationsInformationTopic = config["Kafka:Topics:StationInformation"] ?? "stationsInformation";
 string stationStatusTopic = config["Kafka:Topics:StationStatus"] ?? "stationsStatus";
@@ -25,6 +28,11 @@ builder.Services.AddHttpClient(
         client.BaseAddress = new Uri("https://gbfs.lyft.com/gbfs/2.3/bkn/en/");
         client.DefaultRequestHeaders.UserAgent.ParseAdd("dotnet-docs");
     });
+
+
+builder.Services.AddDbContext<StationDbContext>(options =>
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
+);
 
 builder.Services.AddTransient<StationInformationService>();
 builder.Services.AddTransient<StationStatusService>();
