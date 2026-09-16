@@ -1,5 +1,4 @@
-﻿using Bike_fleet_operation_platform.DataDbContext;
-using Bike_fleet_operation_platform.Services;
+﻿using Bike_fleet_operation_platform.Services;
 using Confluent.Kafka;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -33,10 +32,6 @@ builder.Services.AddHttpClient(
         client.DefaultRequestHeaders.UserAgent.ParseAdd("dotnet-docs");
     });
 
-
-builder.Services.AddDbContext<StationDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
-);
 
 builder.Services.AddTransient<StationInformationService>();
 builder.Services.AddTransient<StationStatusService>();

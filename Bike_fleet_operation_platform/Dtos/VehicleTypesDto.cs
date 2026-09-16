@@ -11,6 +11,6 @@ public class VehicleTypesDto
 {
     [Required]
     public string Vehicle_type_id { get; set; } = string.Empty;
-    public string From_factor { get; set; } = string.Empty;
+    public string Form_factor { get; set; } = string.Empty;
     public string propulsion_type { get; set; } = string.Empty;
 }

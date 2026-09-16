@@ -45,7 +45,6 @@ public class KafkaConsumerBackgroundService : BackgroundService
             {
                 var result = consumer.Consume(stoppingToken);
                 if (result == null) continue;
-
                 using (var scope = _serviceProvider.CreateScope())
                 { 
                     var handlers = scope.ServiceProvider.GetServices<IKafkaMessageHandler>();

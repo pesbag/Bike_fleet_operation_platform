@@ -26,3 +26,13 @@ services:
       MYSQL_DATABASE: stationDb
     ports:
       - "3306:3306"
+  mongo:
+    image: mongo
+    container_name: mongoDb
+    ports:
+      - "27017:27017"
+  redis:
+    image: redis
+    container_name: redisDb
+    ports:
+      - "6379:6379"

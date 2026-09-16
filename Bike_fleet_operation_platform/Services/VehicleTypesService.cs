@@ -66,7 +66,7 @@ public class VehicleTypesService
         catch(Exception ex)
         {
             Console.WriteLine($"the error: {ex.Message}");
-            _logger.LogError("Error getting something fun to say: {Error}", ex);
+            _logger.LogError("error getting something fun to say: {Error}", ex);
         }
         return [];
     }

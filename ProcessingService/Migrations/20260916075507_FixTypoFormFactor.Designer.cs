@@ -10,8 +10,8 @@ using ProcessingService.DataDbContext;
 namespace ProcessingService.Migrations
 {
     [DbContext(typeof(StationDbContext))]
-    [Migration("20260915154210_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260916075507_FixTypoFormFactor")]
+    partial class FixTypoFormFactor
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,7 +49,7 @@ namespace ProcessingService.Migrations
                     b.Property<string>("Vehicle_type_id")
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("From_factor")
+                    b.Property<string>("Form_factor")
                         .IsRequired()
                         .HasColumnType("longtext");
 

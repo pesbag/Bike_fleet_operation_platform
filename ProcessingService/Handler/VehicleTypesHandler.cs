@@ -12,7 +12,7 @@ namespace ProcessingService.Handler;
 public class VehicleTypesHandler:IKafkaMessageHandler
 {
     private readonly StationDbContext _context;
-    public string Topic=> "bike.vehicle-types";
+    public string Topic => "bike.vehicle-types";
     public VehicleTypesHandler(StationDbContext context)
     {
         _context = context;
