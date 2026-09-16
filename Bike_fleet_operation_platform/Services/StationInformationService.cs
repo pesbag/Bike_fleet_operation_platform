@@ -30,7 +30,7 @@ public class StationInformationService
 
     public async Task<StationInformationDto[]> GetStationsInformationAsync(string topic)
     {
-        // Create the client
+        // create the client
         string? httpClientName = _configuration["StationInformation"] ?? "LyftStationClient";
         HttpClient client = _httpClientFactory.CreateClient(httpClientName);
 

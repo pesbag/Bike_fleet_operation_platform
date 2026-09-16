@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Bike_fleet_operation_platform.Migrations
+namespace ProcessingService.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

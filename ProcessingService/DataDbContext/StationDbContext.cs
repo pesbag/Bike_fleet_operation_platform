@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Bike_fleet_operation_platform.Dtos;
+using ProcessingService.Dtos;
 using Microsoft.EntityFrameworkCore;
-namespace Bike_fleet_operation_platform.DataDbContext;
+namespace ProcessingService.DataDbContext;
 
 public class StationDbContext: DbContext
 {
-    //private readonly DbContextOptions<StationDbContext> _connection;
     public StationDbContext(DbContextOptions<StationDbContext> options):base(options) {}
     public DbSet<StationInformationDto> stationInformation { get; set; }
     public DbSet<VehicleTypesDto> vehicleTypes { get; set; }

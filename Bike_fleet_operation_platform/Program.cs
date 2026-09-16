@@ -1,9 +1,13 @@
-﻿using Bike_fleet_operation_platform.Services;
+﻿using Bike_fleet_operation_platform.DataDbContext;
+using Bike_fleet_operation_platform.Services;
+using Confluent.Kafka;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Configuration;
-using Bike_fleet_operation_platform.DataDbContext;
-using Microsoft.EntityFrameworkCore;
+using System;
+using System.Text.RegularExpressions;
+using static Confluent.Kafka.ConfigPropertyNames;
 
 HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 

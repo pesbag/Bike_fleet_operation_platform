@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Bike_fleet_operation_platform/Bike_fleet_operation_platform.csproj" />
+  <Project Path="ProcessingService/ProcessingService.csproj" />
+</Solution>

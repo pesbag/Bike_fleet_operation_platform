@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bike_fleet_operation_platform.Handler;
+namespace ProcessingService.Handler;
 
-public class VehicleTypesHandler
+public class StationStatusHandler
 {
 }
