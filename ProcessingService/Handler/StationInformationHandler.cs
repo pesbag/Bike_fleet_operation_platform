@@ -40,6 +40,7 @@ using System.Threading.Tasks;
 
 namespace ProcessingService.Handler;
 
+
 public class StationInformationHandler : IKafkaMessageHandler
 {
     private readonly StationDbContext _context;

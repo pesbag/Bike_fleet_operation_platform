@@ -54,4 +54,10 @@ builder.Services.AddSingleton<IMongoClient>(sp =>
 
 using IHost host = builder.Build();
 
-await host.RunAsync();
+using (var scope = host.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<StationDbContext>();
+    dbContext.Database.EnsureCreated();
+}
+
+    await host.RunAsync();

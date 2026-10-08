@@ -1,13 +1,4 @@
-﻿using Bike_fleet_operation_platform.Dtos;
-using Confluent.Kafka;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Confluent.Kafka;
 
 namespace Bike_fleet_operation_platform.Services;
 

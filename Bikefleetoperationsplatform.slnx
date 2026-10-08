@@ -1,4 +1,8 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="index.html" />
+  </Folder>
   <Project Path="Bike_fleet_operation_platform/Bike_fleet_operation_platform.csproj" />
   <Project Path="ProcessingService/ProcessingService.csproj" />
+  <Project Path="StationApi/StationApi.csproj" Id="dea3288e-4778-488e-861b-99893e255122" />
 </Solution>
