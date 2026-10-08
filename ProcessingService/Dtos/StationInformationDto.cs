@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
-namespace Bike_fleet_operation_platform.Dtos;
+namespace ProcessingService.Dtos;
 
 public class StationInformationDto
 {
